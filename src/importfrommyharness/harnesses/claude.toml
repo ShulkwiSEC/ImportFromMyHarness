@@ -1,0 +1,66 @@
+# Claude Code. Official docs: https://code.claude.com/docs/en/overview
+# (docs= URLs below are from memory; verify before relying on them.)
+name   = "claude"
+detect = [".claude/agents", ".claude/skills", ".claude/rules", ".claude/settings.json", "CLAUDE.md"]
+
+[[item]]
+kind = "instruction"
+path = "CLAUDE.md"
+fmt  = "md"
+keep = true
+docs = "https://code.claude.com/docs/en/memory"
+
+[[item]]
+kind = "rule"
+path = ".claude/rules/*.md"
+fmt  = "md"
+keep = true
+docs = "https://code.claude.com/docs/en/memory"
+
+[[item]]
+kind = "skill"
+path = ".claude/skills/*/"
+fmt  = "tree"                       # SKILL.md format is shared with opencode: copy as-is
+docs = "https://code.claude.com/docs/en/skills"
+
+[[item]]
+kind  = "agent"
+path  = ".claude/agents/*.md"
+fmt   = "md"
+docs  = "https://code.claude.com/docs/en/sub-agents"
+xform = ["tools_csv"]
+map   = { name = "name", description = "description", tools = "tools", model = "model" }
+need_body = true
+default   = { name = "{name}", description = "{name}" }
+
+[[item]]
+kind = "command"
+path = ".claude/commands/*.md"
+fmt  = "md"
+docs = "https://code.claude.com/docs/en/slash-commands"
+map  = { description = "description" }
+
+[[item]]
+kind  = "mcp"
+path  = ".mcp.json#mcpServers"
+fmt   = "json-map"
+docs  = "https://code.claude.com/docs/en/mcp"
+xform = ["argv", "refs"]
+map   = { command = "command", env = "env", type = "type", url = "url", headers = "headers" }
+ignore = ["enabled"]
+skip_disabled = true                # .mcp.json has no per-server enabled flag
+
+[[item]]
+kind = "setting"
+name = "default_agent"
+path = ".claude/settings.json#agent"
+fmt  = "json-path"
+requires = ".claude/agents/{value}.md"
+
+[[item]]
+kind = "setting"
+name = "subagent_depth"
+path = ".claude/settings.json#env.CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS"
+fmt  = "json-path"
+set  = "1"
+note = "enables agent teams via env var; the source depth value is not carried over (semantics unverified)"

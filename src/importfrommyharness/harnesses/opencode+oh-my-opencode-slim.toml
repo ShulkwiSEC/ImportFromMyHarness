@@ -1,0 +1,20 @@
+# Plugin pack. Source: https://github.com/alvinunreal/oh-my-opencode-slim/blob/master/docs/configuration.md
+# Agents live in oh-my-opencode-slim.json[c]#agents; prompts in oh-my-opencode-slim/<name>.md
+# (+ <name>_append.md). Inline `prompt` beats the file. Model chains, presets, fallback,
+# council/observer/tui/etc. have no Claude equivalent -> reported as lossy/unmapped.
+host   = "opencode"
+origin = "plugin:oh-my-opencode-slim"
+detect = [".opencode/oh-my-opencode-slim.json", ".opencode/oh-my-opencode-slim.jsonc"]
+
+[[item]]
+kind = "agent"
+path = ".opencode/oh-my-opencode-slim.json#agents"
+fmt  = "json-map+md"
+body = [".opencode/oh-my-opencode-slim/{name}.md", ".opencode/oh-my-opencode-slim/{name}_append.md"]
+map  = { name = "name", description = "description" }
+need_body = true
+
+[[item]]
+kind = "plugin-config"
+path = ".opencode/oh-my-opencode-slim.json"
+fmt  = "raw"

@@ -1,0 +1,113 @@
+# OpenCode. Official docs: https://opencode.ai/docs/ (docs= URLs from memory; verify).
+name   = "opencode"
+detect = [".opencode", "opencode.json", "opencode.jsonc"]
+
+[[item]]
+kind = "instruction"
+path = ".opencode/AGENTS.md"
+fmt  = "md"
+keep = true
+docs = "https://opencode.ai/docs/rules"
+
+[[item]]
+kind = "instruction"
+path = ".opencode/context.md"
+fmt  = "md"
+keep = true
+
+[[item]]
+kind = "instruction"
+path = "AGENTS.md"
+fmt  = "md"
+keep = true
+
+[[item]]
+kind = "rule"
+path = ".opencode/rules/*.md"
+fmt  = "md"
+keep = true
+
+[[item]]
+kind = "skill"
+path = ".opencode/skills/*/"
+fmt  = "tree"
+docs = "https://opencode.ai/docs/skills"
+
+[[item]]
+kind  = "agent"
+path  = ".opencode/agents/*.md"
+fmt   = "md"
+docs  = "https://opencode.ai/docs/agents"
+xform = ["tools_map"]
+map   = { name = "name", description = "description", tools = "tools" }
+default = { mode = "subagent" }
+need_body = true
+
+[[item]]
+kind  = "mode"                      # legacy primary-agent files; claude has no modes
+path  = ".opencode/modes/*.md"
+fmt   = "md"
+xform = ["tools_map"]
+map   = { name = "name", description = "description", tools = "tools" }
+
+[[item]]
+kind = "command"
+path = ".opencode/commands/*.md"
+fmt  = "md"
+docs = "https://opencode.ai/docs/commands"
+map  = { description = "description" }
+
+[[item]]
+kind  = "mcp"
+path  = ".opencode/opencode.json#mcp"
+fmt   = "json-map"
+docs  = "https://opencode.ai/docs/mcp-servers"
+xform = ["mcp_type", "refs_oc"]
+map   = { command = "command", environment = "env", enabled = "enabled", url = "url", headers = "headers", type = "type" }
+
+[[item]]
+kind = "setting"
+name = "default_agent"
+path = ".opencode/opencode.json#default_agent"
+fmt  = "json-path"
+
+[[item]]
+kind = "setting"
+name = "subagent_depth"
+path = ".opencode/opencode.json#subagent_depth"
+fmt  = "json-path"
+
+# Read-only on purpose: no safe Claude equivalent, so they land in unmapped/ for review.
+[[item]]
+kind = "permission"
+name = "permission"
+path = ".opencode/opencode.json#permission"
+fmt  = "json-path"                  # last-match-wins globs; never auto-grant in claude
+
+[[item]]
+kind = "plugin"
+name = "plugins"
+path = ".opencode/opencode.json#plugin"
+fmt  = "json-path"                  # npm plugins
+
+[[item]]
+kind = "env"
+name = "env"
+path = ".opencode/opencode.json#env"
+fmt  = "json-path"
+
+[[item]]
+kind = "lsp"
+name = "lsp"
+path = ".opencode/opencode.json#lsp"
+fmt  = "json-path"
+
+[[item]]
+kind = "hook"
+path = ".opencode/hooks/*"
+fmt  = "raw"
+
+[[item]]
+kind = "coordinators"
+path = ".opencode/coordinators*.json"
+fmt  = "raw"

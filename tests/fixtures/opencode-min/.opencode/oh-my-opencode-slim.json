@@ -1,0 +1,3 @@
+{ "agents": {
+  "helper": {"description": "Helps", "model": ["a","b"], "skills": ["*"]},
+  "orchestrator": {"model": "x"} } }
