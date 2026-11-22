@@ -1,12 +1,15 @@
 # ImportFromMyHarness
 
-**Move an opencode project into Claude Code in one command.** It converts instructions, rules, skills, agents, MCP servers and `oh-my-opencode-slim` agents, and lists whatever it couldn't convert instead of silently dropping it.
+**Import your setup from one AI coding harness into another.** Instructions, rules, skills, agents, MCP servers and settings are converted by a small data-driven engine, and whatever can't be converted is listed instead of silently dropped.
 
-| Direction | Status |
-|---|---|
-| opencode → Claude Code | supported and tested |
-| Claude Code → opencode | experimental: mappings exist, not tested yet |
-| Other harnesses | add one TOML file ([how](#add-a-harness)) |
+A harness is just a TOML file, so supporting a new one means adding one file, not writing code.
+
+| Harness | As source | As destination |
+|---|---|---|
+| opencode (+ `oh-my-opencode-slim`) | tested | experimental |
+| Claude Code | experimental | tested |
+
+Need another harness? Add its TOML ([how](#add-a-harness)) or open an issue.
 
 ![demo](https://raw.githubusercontent.com/ShulkwiSEC/ImportFromMyHarness/main/assets/demo.gif)
 
