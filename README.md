@@ -12,7 +12,7 @@ Need another harness? Add its TOML ([how](#add-a-harness)) or open an issue.
 curl -fsSL https://raw.githubusercontent.com/ShulkwiSEC/ImportFromMyHarness/main/install.sh | sh
 ```
 
-It checks for [uv](https://docs.astral.sh/uv/) (and offers to install it), installs the tool, then offers a guided first run. No sudo; re-running upgrades. Flags: `sh -s -- -y` (no questions), `sh -s -- --no-setup`. Or without the script: `uvx importfrommyharness` (run once) or `uv tool install importfrommyharness`.
+It checks for [uv](https://docs.astral.sh/uv/) (and offers to install it), installs the tool, then offers a guided first run. No sudo; re-running upgrades. Flags: `sh -s -- -y` (no questions), `sh -s -- --no-setup`, `sh -s -- --star` (also stars the repo via `gh`; the installer asks first otherwise, and `-y` never stars). Or without the script: `uvx importfrommyharness` (run once) or `uv tool install importfrommyharness`.
 
 ## Use
 

@@ -1,14 +1,14 @@
 #!/bin/sh
 # One-line install:
 #   curl -fsSL https://raw.githubusercontent.com/ShulkwiSEC/ImportFromMyHarness/main/install.sh | sh
-# Flags (after `sh -s --`): -y  answer yes to everything   --no-setup  install only
+# Flags (after `sh -s --`): -y  answer yes to install questions   --no-setup  install only   --star  also star the repo (needs gh)
 # Env: IFMH_SOURCE=<pip/git/path spec>  override what gets installed
 set -eu
 
 SRC="${IFMH_SOURCE:-git+https://github.com/ShulkwiSEC/ImportFromMyHarness}"
-YES=0; SETUP=1
+YES=0; SETUP=1; STAR=0; REPO="ShulkwiSEC/ImportFromMyHarness"
 for a in "$@"; do
-  case "$a" in -y|--yes) YES=1 ;; --no-setup) SETUP=0 ;; *) echo "unknown option: $a" >&2; exit 2 ;; esac
+  case "$a" in -y|--yes) YES=1 ;; --no-setup) SETUP=0 ;; --star) STAR=1 ;; *) echo "unknown option: $a" >&2; exit 2 ;; esac
 done
 
 if [ -t 2 ] && [ -z "${NO_COLOR:-}" ]; then B='\033[1m'; G='\033[32m'; Y='\033[33m'; D='\033[2m'; N='\033[0m'; else B=; G=; Y=; D=; N=; fi
@@ -45,6 +45,15 @@ say "Installing importfrommyharness"
 uv tool install --force "$SRC" >&2 || die "install failed. Try: uv tool install '$SRC'"
 command -v importfrommyharness >/dev/null 2>&1 || die "installed, but not on PATH. Add: export PATH=\"\$HOME/.local/bin:\$PATH\""
 ok "$(importfrommyharness --version)"
+
+# Optional star. Never automatic: -y does not imply it, only --star or an explicit yes does.
+if command -v gh >/dev/null 2>&1 && gh auth status >/dev/null 2>&1; then
+  if [ "$STAR" = 1 ] || { [ "$YES" = 0 ] && [ -r /dev/tty ] && confirm "Star $REPO on GitHub? It helps other people find it."; }; then
+    gh api -X PUT "user/starred/$REPO" >/dev/null 2>&1 && ok "starred, thank you" || warn "could not star (run: gh repo star $REPO)"
+  fi
+else
+  printf "${D}If it saves you time: https://github.com/%s${N}\n" "$REPO" >&2
+fi
 
 if [ "$SETUP" = 1 ] && [ -r /dev/tty ] && [ "$YES" = 0 ]; then
   confirm "Run the guided setup now?" && exec importfrommyharness setup </dev/tty
