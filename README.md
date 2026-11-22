@@ -2,9 +2,9 @@
 
 **Import your setup from one AI coding harness into another.** Instructions, rules, skills, agents, MCP servers and settings are converted by a small data-driven engine, and whatever can't be converted is listed instead of silently dropped.
 
-Need another harness? Add its TOML ([how](#add-a-harness)) or open an issue.
-
 ![demo](https://raw.githubusercontent.com/ShulkwiSEC/ImportFromMyHarness/main/assets/demo.gif)
+
+Need another harness? Add its TOML ([how](#add-a-harness)) or open an issue.
 
 ## Install
 
