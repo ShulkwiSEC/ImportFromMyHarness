@@ -2,13 +2,6 @@
 
 **Import your setup from one AI coding harness into another.** Instructions, rules, skills, agents, MCP servers and settings are converted by a small data-driven engine, and whatever can't be converted is listed instead of silently dropped.
 
-A harness is just a TOML file, so supporting a new one means adding one file, not writing code.
-
-| Harness | As source | As destination |
-|---|---|---|
-| opencode (+ `oh-my-opencode-slim`) | tested | experimental |
-| Claude Code | experimental | tested |
-
 Need another harness? Add its TOML ([how](#add-a-harness)) or open an issue.
 
 ![demo](https://raw.githubusercontent.com/ShulkwiSEC/ImportFromMyHarness/main/assets/demo.gif)
@@ -45,3 +38,11 @@ Drop one file in `src/importfrommyharness/harnesses/<name>.toml`: a `name`, a `d
 
 ## Tests
 `uv run python -m unittest discover tests`
+
+## Supported harnesses
+A harness is just a TOML file, so supporting a new one means adding one file, not writing code.
+
+| Harness | As source | As destination |
+|---|---|---|
+| opencode (+ `oh-my-opencode-slim`) | tested | experimental |
+| Claude Code | experimental | tested |
