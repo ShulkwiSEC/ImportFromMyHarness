@@ -21,8 +21,9 @@ die()  { printf "error: %s\n" "$*" >&2; exit 1; }
 confirm() {
   [ "$YES" = 1 ] && return 0
   if [ -r /dev/tty ]; then
-    printf "%s [y/N] " "$1" >&2; read -r ans </dev/tty || return 1
-    case "$ans" in y|Y|yes) return 0 ;; *) return 1 ;; esac
+    d=${2:-N}; [ "$d" = Y ] && h="Y/n" || h="y/N"
+    printf "%s [%s] " "$1" "$h" >&2; read -r ans </dev/tty || return 1
+    case "$ans" in y|Y|yes) return 0 ;; n|N|no) return 1 ;; *) [ "$d" = Y ] ;; esac
   fi
   die "no terminal to ask '$1'. Re-run with: ... | sh -s -- -y"
 }
@@ -48,7 +49,7 @@ ok "$(importfrommyharness --version)"
 
 # Optional star. Never automatic: -y does not imply it, only --star or an explicit yes does.
 if command -v gh >/dev/null 2>&1 && gh auth status >/dev/null 2>&1; then
-  if [ "$STAR" = 1 ] || { [ "$YES" = 0 ] && [ -r /dev/tty ] && confirm "Star $REPO on GitHub? It helps other people find it."; }; then
+  if [ "$STAR" = 1 ] || { [ "$YES" = 0 ] && [ -r /dev/tty ] && confirm "Star $REPO on GitHub? It helps other people find it." Y; }; then
     gh api -X PUT "user/starred/$REPO" >/dev/null 2>&1 && ok "starred, thank you" || warn "could not star (run: gh repo star $REPO)"
   fi
 else

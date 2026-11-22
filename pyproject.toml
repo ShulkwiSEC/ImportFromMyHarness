@@ -1,7 +1,7 @@
 [project]
 name = "importfrommyharness"
-version = "0.1.2"
-description = "Import config from one AI-coding harness into another"
+version = "0.1.3"
+description = "Move a large AI-coding harness setup into another harness, with a written list of what did not convert"
 readme = "README.md"
 license = "MIT"
 license-files = ["LICENSE"]

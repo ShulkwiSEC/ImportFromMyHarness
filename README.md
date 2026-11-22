@@ -1,10 +1,12 @@
 # ImportFromMyHarness
 
-**Import your setup from one AI coding harness into another.** Instructions, rules, skills, agents, MCP servers and settings are converted by a small data-driven engine, and whatever can't be converted is listed instead of silently dropped.
+**Import your setup from one AI coding harness into another, and get a written list of what didn't convert.** Instructions, rules, skills, agents, MCP servers and settings are converted by a small data-driven engine. Built for large setups (tested on 157 agents and 400 skills) that you don't want to rewrite by hand.
 
 ![demo](https://raw.githubusercontent.com/ShulkwiSEC/ImportFromMyHarness/main/assets/demo.gif)
 
 Need another harness? Add its TOML ([how](#add-a-harness)) or open an issue.
+
+**Starting fresh, or want to write rules once and generate for every tool?** Use [rulesync](https://github.com/dyoshikawa/rulesync) or [ruler](https://github.com/intellectronica/ruler). This tool is for moving a setup you already have. See [positioning](docs/positioning.md).
 
 ## Install
 
