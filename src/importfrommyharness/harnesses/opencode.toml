@@ -1,4 +1,4 @@
-# OpenCode. Official docs: https://opencode.ai/docs/ (docs= URLs from memory; verify).
+# OpenCode. Official docs: https://opencode.ai/docs/ (agents, mcp-servers, skills checked 2026-11-22; commands/rules URLs not checked).
 name   = "opencode"
 detect = [".opencode", "opencode.json", "opencode.jsonc"]
 
@@ -57,11 +57,21 @@ fmt  = "md"
 docs = "https://opencode.ai/docs/commands"
 map  = { description = "description" }
 
+# opencode v2 layout: mcp.servers.<name>, `disabled` flag (https://opencode.ai/docs/mcp-servers). First row = write target.
+[[item]]
+kind  = "mcp"
+path  = ".opencode/opencode.json#mcp.servers"
+fmt   = "json-map"
+docs  = "https://opencode.ai/docs/mcp-servers"
+xform = ["mcp_type", "refs_oc", "disabled"]
+map   = { command = "command", environment = "env", enabled = "enabled", url = "url", headers = "headers", type = "type" }
+
+# opencode v1 layout: mcp.<name> with `enabled` (still what many existing configs use).
 [[item]]
 kind  = "mcp"
 path  = ".opencode/opencode.json#mcp"
 fmt   = "json-map"
-docs  = "https://opencode.ai/docs/mcp-servers"
+exclude = ["servers"]
 xform = ["mcp_type", "refs_oc"]
 map   = { command = "command", environment = "env", enabled = "enabled", url = "url", headers = "headers", type = "type" }
 
@@ -83,6 +93,12 @@ kind = "permission"
 name = "permission"
 path = ".opencode/opencode.json#permission"
 fmt  = "json-path"                  # last-match-wins globs; never auto-grant in claude
+
+[[item]]
+kind = "permission"
+name = "permissions"                # v2 spelling (https://opencode.ai/docs/config)
+path = ".opencode/opencode.json#permissions"
+fmt  = "json-path"
 
 [[item]]
 kind = "plugin"

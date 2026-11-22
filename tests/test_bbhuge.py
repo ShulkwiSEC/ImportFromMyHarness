@@ -41,6 +41,15 @@ class OpencodeToClaude(unittest.TestCase):
         for kind in ("permission", "plugin", "plugin-config"):
             self.assertTrue((un / kind).exists(), kind)
 
+    def test_opencode_v2_mcp_layout(self):
+        cfg = self.src / ".opencode/opencode.json"
+        cfg.write_text(json.dumps({"mcp": {"servers": {
+            "a": {"type": "local", "command": ["npx", "x"]},
+            "b": {"type": "local", "command": ["y"], "disabled": True}}}}))
+        self.run_import("--apply")
+        m = json.loads((self.src / ".mcp.json").read_text())["mcpServers"]
+        self.assertEqual(m, {"a": {"command": "npx", "args": ["x"]}})   # no bogus "servers" entry, disabled skipped
+
     def test_setup_refuses_without_terminal(self):
         self.assertEqual(main(["setup"]), 2)  # tests run without a TTY
 

@@ -1,5 +1,5 @@
 # Claude Code. Official docs: https://code.claude.com/docs/en/overview
-# (docs= URLs below are from memory; verify before relying on them.)
+# docs= checked 2026-11-22: sub-agents, memory (rules), skills, mcp. Not checked: slash-commands.
 name   = "claude"
 detect = [".claude/agents", ".claude/skills", ".claude/rules", ".claude/settings.json", "CLAUDE.md"]
 
@@ -63,4 +63,4 @@ name = "subagent_depth"
 path = ".claude/settings.json#env.CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS"
 fmt  = "json-path"
 set  = "1"
-note = "enables agent teams via env var; the source depth value is not carried over (semantics unverified)"
+note = "sets CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1, which enables agent teams (https://code.claude.com/docs/en/agent-teams); it is not a depth setting, so the source depth value is not carried over"

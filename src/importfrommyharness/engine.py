@@ -174,7 +174,22 @@ def _tools_map_out(d, rep):
     return d
 
 
+def _disabled_in(d, rep):
+    d = dict(d)
+    if d.pop("disabled", False):
+        d["enabled"] = False
+    return d
+
+
+def _disabled_out(d, rep):
+    d = dict(d)
+    if d.pop("enabled", True) is False:
+        d["disabled"] = True
+    return d
+
+
 XF = {
+    "disabled": (_disabled_in, _disabled_out),
     "argv": (_argv_in, _argv_out),
     "refs": (_refs_in, lambda d, r: d),
     "refs_oc": (_refs_in, _refs_oc_out),
@@ -250,6 +265,8 @@ def read_row(row, root, origin, rep):
         if fmt == "json-path":
             return [Item(kind, row["name"], {"value": v}, origin=origin, src=str(p))]
         for n, e in v.items():
+            if n in row.get("exclude", []):  # e.g. opencode v1 `mcp` map must not read v2's `servers` key
+                continue
             it = Item(kind, n, dict(e), origin=origin, src=f"{p}#{frag}")
             if fmt == "json-map+md":
                 _attach_md(it, row, root, rep)
