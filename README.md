@@ -1,6 +1,14 @@
 # ImportFromMyHarness
 
-**Bring your whole harness with you.** Convert your opencode setup (instructions, rules, skills, agents, MCP servers, settings, plus plugins like `oh-my-opencode-slim`) into Claude Code in one command, and get an honest report of whatever didn't fit.
+**Move an opencode project into Claude Code in one command.** It converts instructions, rules, skills, agents, MCP servers and `oh-my-opencode-slim` agents, and lists whatever it couldn't convert instead of silently dropping it.
+
+| Direction | Status |
+|---|---|
+| opencode → Claude Code | supported and tested |
+| Claude Code → opencode | experimental: mappings exist, not tested yet |
+| Other harnesses | add one TOML file ([how](#add-a-harness)) |
+
+![demo](https://raw.githubusercontent.com/ShulkwiSEC/ImportFromMyHarness/main/assets/demo.gif)
 
 ## Install
 
@@ -8,7 +16,7 @@
 curl -fsSL https://raw.githubusercontent.com/ShulkwiSEC/ImportFromMyHarness/main/install.sh | sh
 ```
 
-It checks for [uv](https://docs.astral.sh/uv/) (and offers to install it), installs the tool, then offers a guided first run. No sudo; re-running upgrades. Flags: `sh -s -- -y` (no questions), `sh -s -- --no-setup`. Prefer to do it yourself: `uv tool install git+https://github.com/ShulkwiSEC/ImportFromMyHarness`.
+It checks for [uv](https://docs.astral.sh/uv/) (and offers to install it), installs the tool, then offers a guided first run. No sudo; re-running upgrades. Flags: `sh -s -- -y` (no questions), `sh -s -- --no-setup`. Or without the script: `uvx importfrommyharness` (run once) or `uv tool install importfrommyharness`.
 
 ## Use
 
@@ -34,10 +42,3 @@ Drop one file in `src/importfrommyharness/harnesses/<name>.toml`: a `name`, a `d
 
 ## Tests
 `uv run python -m unittest discover tests`
-
-## Known gaps
-- `docs=` URLs and the opencode `agents/` path are from memory; verify against official docs.
-- `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS` semantics are unverified. The source depth value is not carried over.
-- User-level config (`~/.config/opencode`, `~/.claude`) is not scanned yet; only project roots.
-- Claude -> opencode rows exist but are untested.
-- The install URL assumes the repo lives at `github.com/ShulkwiSEC/ImportFromMyHarness` (branch `main`).
